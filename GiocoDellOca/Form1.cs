@@ -5,32 +5,75 @@ namespace GiocoDellOca
     public partial class Form1 : Form
     {
         const int pathLen = 63;
+        System.Windows.Forms.Timer resizeTimer;
+        private const int RESIZE_TICK_TIME_MS = 500;
+        private bool isInitialized = false;
+
         public Form1()
         {
             InitializeComponent();
-            InitializeField();
+
+            CreateDynamicGrid();
+
+            // Timer for dynamic resizing
+            resizeTimer = new System.Windows.Forms.Timer();
+            resizeTimer.Interval = RESIZE_TICK_TIME_MS;
+            resizeTimer.Tick += ResizeTimer_Tick;
+
+            isInitialized = true;
         }
 
-        public void InitializeField()
+        private void ResizeTimer_Tick(object? sender, EventArgs e)
         {
-            dtg_Campo.Rows.Clear();
-            for (int i = 0; i<2+Math.Ceiling((decimal)63/8)*2; i++)
+            resizeTimer.Stop();
+            setGridSize();
+        }
+
+        private void setGridSize()
+        {
+            const int BORDER_VALUE = 3;
+
+            int size = Math.Min((pnl_gamePanel.ClientSize.Width - BORDER_VALUE) / dtg_Campo.ColumnCount, (pnl_gamePanel.ClientSize.Height - BORDER_VALUE) / dtg_Campo.RowCount);
+
+            foreach (DataGridViewColumn column in dtg_Campo.Columns)
             {
-                dtg_Campo.Rows.Add("", "", "", "", "", "", "", "", "");
+                column.Width = size;
             }
+            foreach (DataGridViewRow row in dtg_Campo.Rows)
+            {
+                row.Height = size;
+            }
+
+            dtg_Campo.Width = size * dtg_Campo.ColumnCount + BORDER_VALUE;
+            dtg_Campo.Height = size * dtg_Campo.RowCount + BORDER_VALUE;
+
+        }
+
+        private void CreateDynamicGrid()
+        {
+            if (pathLen == 0)
+                return;
+
+            int dimensioneY = 7 + 2;
+            int dimensioneX = 2 + (int)Math.Ceiling(pathLen / 8f) * 2;
+            dtg_Campo.ColumnCount = dimensioneX;
+            dtg_Campo.RowCount = dimensioneY;
+
 
             int colorate = 0;
             bool interrupt = false;
 
-            for (int y = 1; y < (1 + Math.Ceiling((decimal)63 / 8) * 2) && !interrupt; y++)
+            for (int y = 1; y < (dimensioneY-1) && !interrupt; y++)
             {
-                if (y%2 == 1)
+                if (y % 2 == 1)
                 {
-                    for (int x = 1; x < 9; x++)
+                    bool normalDir = (pathLen % ((dimensioneX-1)*2)) < (dimensioneX - 1);
+                    for (int x = (normalDir ? 1 : dimensioneX - 2); (normalDir ? x < (dimensioneX - 1) : x >= 1); x+=(normalDir ? 1 : -1))
                     {
                         if (colorate++ < pathLen)
                         {
-                            dtg_Campo.Rows[y].Cells[x].Style.BackColor = Color.Green;
+                            bool coloreScacchiera = (x + y) % 2 == 0;
+                            dtg_Campo.Rows[y].Cells[x].Style.BackColor = coloreScacchiera ? Color.Green : Color.LightGreen;
                         }
                         else
                         {
@@ -41,18 +84,30 @@ namespace GiocoDellOca
                 }
                 else
                 {
-                    if ((y-1)%4 == 1)
+                    if (colorate++ >= pathLen)
                     {
-                        //colora
-                        dtg_Campo.Rows[y].Cells[1].Style.BackColor = Color.Green;
+                        interrupt = true;
                     }
                     else
                     {
-                        dtg_Campo.Rows[y].Cells[8].Style.BackColor = Color.Green;
+                        int x = (y - 1) % 4 == 3 ? 1 : dimensioneX-2;
+                        bool coloreScacchiera = (x + y) % 2 == 0;
+
+                        dtg_Campo.Rows[y].Cells[x].Style.BackColor = coloreScacchiera ? Color.Green : Color.LightGreen;
                     }
                 }
 
             }
+
+            setGridSize();
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if (!isInitialized)
+                return;
+            resizeTimer.Stop();
+            resizeTimer.Start();
         }
     }
 }
