@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GiocoDellOca.Caselle
 {
-    internal class CasellaScheletro : Casella
+    internal class CasellaScheletro : CasellaSpeciale
     {
+        public CasellaScheletro(int numero) : base("scheletro", numero) { }
     }
 }

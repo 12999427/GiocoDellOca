@@ -30,7 +30,9 @@
         {
             dtg_Campo = new DataGridView();
             pnl_gamePanel = new Panel();
-            button1 = new Button();
+            btn_Giocatore_1_Dadi = new Button();
+            btn_Giocatore_2_Dadi = new Button();
+            lbl_Stato = new Label();
             ((System.ComponentModel.ISupportInitialize)dtg_Campo).BeginInit();
             pnl_gamePanel.SuspendLayout();
             SuspendLayout();
@@ -63,21 +65,46 @@
             pnl_gamePanel.Size = new Size(822, 510);
             pnl_gamePanel.TabIndex = 1;
             // 
-            // button1
+            // btn_Giocatore_1_Dadi
             // 
-            button1.Location = new Point(0, 0);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            btn_Giocatore_1_Dadi.Font = new Font("Sylfaen", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            btn_Giocatore_1_Dadi.Location = new Point(12, 12);
+            btn_Giocatore_1_Dadi.Name = "btn_Giocatore_1_Dadi";
+            btn_Giocatore_1_Dadi.Size = new Size(145, 61);
+            btn_Giocatore_1_Dadi.TabIndex = 1;
+            btn_Giocatore_1_Dadi.Text = "Giocatore 1 Dadi";
+            btn_Giocatore_1_Dadi.UseVisualStyleBackColor = true;
+            btn_Giocatore_1_Dadi.Click += btn_Giocatore_1_Dadi_Click;
+            // 
+            // btn_Giocatore_2_Dadi
+            // 
+            btn_Giocatore_2_Dadi.Enabled = false;
+            btn_Giocatore_2_Dadi.Font = new Font("Sylfaen", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            btn_Giocatore_2_Dadi.Location = new Point(558, 12);
+            btn_Giocatore_2_Dadi.Name = "btn_Giocatore_2_Dadi";
+            btn_Giocatore_2_Dadi.Size = new Size(145, 61);
+            btn_Giocatore_2_Dadi.TabIndex = 2;
+            btn_Giocatore_2_Dadi.Text = "Giocatore 2 Dadi";
+            btn_Giocatore_2_Dadi.UseVisualStyleBackColor = true;
+            btn_Giocatore_2_Dadi.Click += btn_Giocatore_2_Dadi_Click;
+            // 
+            // lbl_Stato
+            // 
+            lbl_Stato.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl_Stato.Location = new Point(253, 12);
+            lbl_Stato.Name = "lbl_Stato";
+            lbl_Stato.Size = new Size(181, 61);
+            lbl_Stato.TabIndex = 3;
+            lbl_Stato.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(846, 601);
-            Controls.Add(button1);
+            Controls.Add(lbl_Stato);
+            Controls.Add(btn_Giocatore_2_Dadi);
+            Controls.Add(btn_Giocatore_1_Dadi);
             Controls.Add(pnl_gamePanel);
             Name = "Form1";
             Text = "Form1";
@@ -91,6 +118,8 @@
 
         private DataGridView dtg_Campo;
         private Panel pnl_gamePanel;
-        private Button button1;
+        private Button btn_Giocatore_1_Dadi;
+        private Button btn_Giocatore_2_Dadi;
+        private Label lbl_Stato;
     }
 }

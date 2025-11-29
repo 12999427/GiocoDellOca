@@ -8,16 +8,19 @@ namespace GiocoDellOca.Caselle
 {
     internal abstract class Casella
     {
-        private Bitmap figura;
-        public Bitmap Figura
+        private int numero;
+        public int Numero
         {
-            get => figura;
+            get => numero;
             protected set
             {
-                figura = value;
+                numero = value;
             }
         }
 
-
+        protected Casella (int numero)
+        {
+            Numero = numero;
+        }
     }
 }

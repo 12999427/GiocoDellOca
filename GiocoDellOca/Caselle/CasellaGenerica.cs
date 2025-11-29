@@ -8,5 +8,8 @@ namespace GiocoDellOca.Caselle
 {
     internal class CasellaGenerica : Casella
     {
+        public CasellaGenerica (int numero) : base(numero)
+        {
+        }
     }
 }
