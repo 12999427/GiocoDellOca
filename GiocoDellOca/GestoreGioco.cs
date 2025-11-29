@@ -10,7 +10,7 @@ namespace GiocoDellOca
     internal class GestoreGioco
     {
         Random random;
-        List<Casella> Caselle;
+        public List<Casella> Caselle { get; protected set; }
         List<int> PosizioniGiocatori;
         int TotPathLen;
 
@@ -28,19 +28,19 @@ namespace GiocoDellOca
             for (int i = 0; i<len; i++)
             {
                 if (caselleOca.Contains(i))
-                    Caselle[i] = new CasellaOca();
+                    Caselle.Add(new CasellaOca());
                 else if (casellePonte.Contains(i))
-                    Caselle[i] = new CasellaPonte();
+                    Caselle.Add(new CasellaPonte());
                 else if (caselleCasa.Contains(i))
-                    Caselle[i] = new CasellaCasa();
+                    Caselle.Add(new CasellaCasa());
                 else if (casellePrigione.Contains(i))
-                    Caselle[i] = new CasellaPrigione();
+                    Caselle.Add(new CasellaPrigione());
                 else if (caselleLabirinto.Contains(i))
-                    Caselle[i] = new CasellaLabirinto();
+                    Caselle.Add(new CasellaLabirinto());
                 else if (caselleScheletro.Contains(i))
-                    Caselle[i] = new CasellaScheletro();
+                    Caselle.Add(new CasellaScheletro());
                 else
-                    Caselle[i] = new CasellaGenerica();
+                    Caselle.Add(new CasellaGenerica());
             }
         }
 

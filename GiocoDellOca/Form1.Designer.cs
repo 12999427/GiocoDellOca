@@ -30,6 +30,7 @@
         {
             dtg_Campo = new DataGridView();
             pnl_gamePanel = new Panel();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dtg_Campo).BeginInit();
             pnl_gamePanel.SuspendLayout();
             SuspendLayout();
@@ -55,18 +56,28 @@
             // pnl_gamePanel
             // 
             pnl_gamePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            pnl_gamePanel.BackgroundImage = Properties.Resources.Wizard;
+            pnl_gamePanel.BackColor = Color.Gainsboro;
             pnl_gamePanel.Controls.Add(dtg_Campo);
-            pnl_gamePanel.Location = new Point(0, 0);
+            pnl_gamePanel.Location = new Point(12, 79);
             pnl_gamePanel.Name = "pnl_gamePanel";
-            pnl_gamePanel.Size = new Size(845, 600);
+            pnl_gamePanel.Size = new Size(822, 510);
             pnl_gamePanel.TabIndex = 1;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(0, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 2;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(846, 601);
+            Controls.Add(button1);
             Controls.Add(pnl_gamePanel);
             Name = "Form1";
             Text = "Form1";
@@ -80,5 +91,6 @@
 
         private DataGridView dtg_Campo;
         private Panel pnl_gamePanel;
+        private Button button1;
     }
 }
