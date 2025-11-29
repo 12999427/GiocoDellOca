@@ -55,6 +55,7 @@
             // pnl_gamePanel
             // 
             pnl_gamePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnl_gamePanel.BackgroundImage = Properties.Resources.Wizard;
             pnl_gamePanel.Controls.Add(dtg_Campo);
             pnl_gamePanel.Location = new Point(0, 0);
             pnl_gamePanel.Name = "pnl_gamePanel";

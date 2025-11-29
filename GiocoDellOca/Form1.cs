@@ -1,4 +1,6 @@
+using GiocoDellOca.Properties;
 using System.Numerics;
+using System.Windows.Forms;
 
 namespace GiocoDellOca
 {
@@ -13,6 +15,12 @@ namespace GiocoDellOca
         {
             InitializeComponent();
 
+            int[] caselleOca = new int[] { 5, 9, 18, 27, 36, 45, 54 };
+            int[] casellePonte = new int[] { 6 };
+            int[] caselleCasa = new int[] { 19 };
+            int[] casellePrigione = new int[] { 31 };
+            int[] caselleLabirinto = new int[] { 42 };
+            int[] caselleScheletro = new int[] { 58 };
             CreateDynamicGrid();
 
             // Timer for dynamic resizing
@@ -56,19 +64,26 @@ namespace GiocoDellOca
 
             int dimensioneY = 7 + 2;
             int dimensioneX = 2 + (int)Math.Ceiling(pathLen / 8f) * 2;
-            dtg_Campo.ColumnCount = dimensioneX;
-            dtg_Campo.RowCount = dimensioneY;
+            //dtg_Campo.ColumnCount = dimensioneX;
 
+            for (int i = 0; i < dimensioneX; i++)
+            {
+                DataGridViewImageColumn imgColumn = new DataGridViewImageColumn();
+                imgColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // o Stretch, Normal, ecc.
+                dtg_Campo.Columns.Add(imgColumn);
+            }
+
+            dtg_Campo.RowCount = dimensioneY;
 
             int colorate = 0;
             bool interrupt = false;
 
-            for (int y = 1; y < (dimensioneY-1) && !interrupt; y++)
+            for (int y = 1; y < (dimensioneY - 1) && !interrupt; y++)
             {
                 if (y % 2 == 1)
                 {
-                    bool normalDir = (pathLen % ((dimensioneX-1)*2)) < (dimensioneX - 1);
-                    for (int x = (normalDir ? 1 : dimensioneX - 2); (normalDir ? x < (dimensioneX - 1) : x >= 1); x+=(normalDir ? 1 : -1))
+                    bool normalDir = (pathLen % ((dimensioneX - 1) * 2)) < (dimensioneX - 1);
+                    for (int x = (normalDir ? 1 : dimensioneX - 2); (normalDir ? x < (dimensioneX - 1) : x >= 1); x += (normalDir ? 1 : -1))
                     {
                         if (colorate++ < pathLen)
                         {
@@ -90,7 +105,7 @@ namespace GiocoDellOca
                     }
                     else
                     {
-                        int x = (y - 1) % 4 == 3 ? 1 : dimensioneX-2;
+                        int x = (y - 1) % 4 == 3 ? 1 : dimensioneX - 2;
                         bool coloreScacchiera = (x + y) % 2 == 0;
 
                         dtg_Campo.Rows[y].Cells[x].Style.BackColor = coloreScacchiera ? Color.Green : Color.LightGreen;
