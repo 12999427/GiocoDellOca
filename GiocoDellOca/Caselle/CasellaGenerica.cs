@@ -11,5 +11,6 @@ namespace GiocoDellOca.Caselle
         public CasellaGenerica (int numero) : base(numero)
         {
         }
+
     }
 }

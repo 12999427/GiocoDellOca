@@ -22,6 +22,7 @@ namespace GiocoDellOca.Caselle
         {
             NomeFigura = nomeFigura;
         }
+        public abstract void ArrivaSuCella(int numGiocatore, int numMosse, int posAttuale);
 
     }
 }

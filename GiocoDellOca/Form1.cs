@@ -19,7 +19,7 @@ namespace GiocoDellOca
         public Form1()
         {
             InitializeComponent();
-            gestore = new(pathLen, new int[] { 5, 9, 18, 27, 36, 45, 54 }, new int[] { 6 }, new int[] { 19 }, new int[] { 31 }, new int[] { 42 }, new int[] { 58 });
+            gestore = new(pathLen, new int[] { 5, 9, 18, 27, 36, 45, 54 }, new int[] { 6 }, new int[] { 19 }, new int[] { 31 }, new int[] { 42 }, new int[] { 58 }, FinePartita);
             ProduciTutteImmagini();
             CreateDynamicGrid();
 
@@ -35,6 +35,11 @@ namespace GiocoDellOca
         {
             resizeTimer.Stop();
             setGridSize();
+        }
+
+        public void FinePartita (object? sender, FineGiocoEventArgs fgea)
+        {
+
         }
 
         private void setGridSize()
@@ -220,7 +225,7 @@ namespace GiocoDellOca
 
         private void btn_Giocatore_1_Dadi_Click(object sender, EventArgs e)
         {
-            gestore.Avanza(0);
+            gestore.AvanzaRandom(0);
             AggiornaPosizioniGiocatori();
             btn_Giocatore_1_Dadi.Enabled = false;
             btn_Giocatore_2_Dadi.Enabled = true;
@@ -228,7 +233,7 @@ namespace GiocoDellOca
 
         private void btn_Giocatore_2_Dadi_Click(object sender, EventArgs e)
         {
-            gestore.Avanza(1);
+            gestore.AvanzaRandom(1);
             AggiornaPosizioniGiocatori();
             btn_Giocatore_1_Dadi.Enabled = true;
             btn_Giocatore_2_Dadi.Enabled = false;

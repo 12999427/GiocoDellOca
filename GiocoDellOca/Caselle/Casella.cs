@@ -22,5 +22,10 @@ namespace GiocoDellOca.Caselle
         {
             Numero = numero;
         }
+
+        public virtual bool PuoLasciareCasella (int numGiocatore)
+        {
+            return true;
+        }
     }
 }

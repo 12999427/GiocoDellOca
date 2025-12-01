@@ -8,6 +8,15 @@ namespace GiocoDellOca.Caselle
 {
     internal class CasellaPonte : CasellaSpeciale
     {
-        public CasellaPonte(int numero) : base("ponte", numero) { }
+        MuovitiADelegato muovitiA;
+        public CasellaPonte(int numero, MuovitiADelegato muovitiA) : base("ponte", numero)
+        {
+            this.muovitiA = muovitiA;
+        }
+
+        public override void ArrivaSuCella(int numGiocatore, int numMosse, int posAttuale)
+        {
+            muovitiA?.Invoke(numGiocatore, posAttuale + numMosse);
+        }
     }
 }
