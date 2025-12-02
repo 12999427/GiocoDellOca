@@ -29,6 +29,8 @@ namespace GiocoDellOca
             resizeTimer.Tick += ResizeTimer_Tick;
 
             isInitialized = true;
+
+
         }
 
         private void ResizeTimer_Tick(object? sender, EventArgs e)
