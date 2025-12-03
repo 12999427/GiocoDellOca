@@ -67,35 +67,53 @@ namespace GiocoDellOca
 
         public void MuovitiA(int numGiocatore, int indiceCellaNuovo)
         {
-            Avanza(numGiocatore, indiceCellaNuovo - PosizioniGiocatori[numGiocatore]);
+            Avanza(numGiocatore, indiceCellaNuovo - PosizioniGiocatori[numGiocatore], true);
         }
 
-        public int Avanza(int numGiocatore, int numMosse)
+        public int Avanza(int numGiocatore, int numMosse, bool force=false)
         {
             if (TurniAttesaGiocatori[numGiocatore] != 0 && Caselle[PosizioniGiocatori[numGiocatore]].PuoLasciareCasella(numGiocatore))
             {
                 TurniAttesaGiocatori[numGiocatore]--;
                 MessageBox.Show("Attesa");
-                return PosizioniGiocatori[numGiocatore];
+                return numMosse;
             }
             else
             {
-                //MessageBox.Show($"{PosizioniGiocatori[numGiocatore]} {numMosse.ToString()}");
-                int downDelta = Math.Max(0, (PosizioniGiocatori[numGiocatore] + numMosse) - TotPathLen+1);
-                int upDelta = Math.Min(PosizioniGiocatori[numGiocatore] + numMosse, TotPathLen-1);
-
-                //MessageBox.Show($"Posizione attuale: {PosizioniGiocatori[numGiocatore]}, cresciuto a {upDelta}, sceso di {downDelta}");
 
                 int PosizioneIniziale = PosizioniGiocatori[numGiocatore];
-                
-                for (int i = PosizioneIniziale; i<=upDelta; i++)
+
+
+                int downDelta;
+                int upLimit;
+                if (!force)
+                {
+                    downDelta = Math.Max(0, (PosizioniGiocatori[numGiocatore] + numMosse) - TotPathLen + 1);
+                    upLimit = Math.Min(PosizioniGiocatori[numGiocatore] + numMosse, TotPathLen - 1);
+                }
+                else
+                {
+                    if (numMosse > 0)
+                    {
+                        upLimit = PosizioniGiocatori[numGiocatore] + numMosse;
+                        downDelta = 0;
+                    }
+                    else
+                    {
+                        downDelta = -numMosse;
+                        upLimit = PosizioneIniziale;
+                    }
+                }
+
+
+                for (int i = PosizioneIniziale; i<=upLimit; i++)
                 {
                     buffer.Add(new List<int>() { 0, 0 });
                     buffer[^1][1 - numGiocatore] = PosizioniGiocatori[1 - numGiocatore];
                     buffer[^1][numGiocatore] = i;
                 }
 
-                PosizioniGiocatori[numGiocatore] = upDelta;
+                PosizioniGiocatori[numGiocatore] = upLimit;
 
                 for (int i = 1; i <= downDelta; i++)
                 {

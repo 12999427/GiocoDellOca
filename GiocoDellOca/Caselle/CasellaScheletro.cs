@@ -16,7 +16,7 @@ namespace GiocoDellOca.Caselle
 
         public override void ArrivaSuCella(int numGiocatore, int numMosse, int posAttuale)
         {
-            muovitiA?.Invoke(numGiocatore, 1);
+            muovitiA?.Invoke(numGiocatore, 0);
         }
     }
 }
