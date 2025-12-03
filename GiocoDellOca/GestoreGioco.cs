@@ -17,7 +17,7 @@ namespace GiocoDellOca
         private List<int> TurniAttesaGiocatori;
         int TotPathLen;
         event EventHandler<FineGiocoEventArgs> FineGioco;
-        List<List<int>> buffer;
+        public List<List<int>> buffer { get; private set; }
 
         public GestoreGioco(int totLen, int[] caselleOca, int[] casellePonte, int[] caselleCasa, int[] casellePrigione, int[] caselleLabirinto, int[] caselleScheletro, EventHandler<FineGiocoEventArgs> funzioneFinePartita)
         {
@@ -26,11 +26,8 @@ namespace GiocoDellOca
             random = new Random(Environment.TickCount);
             PosizioniGiocatori = new List<int>() { 0, 0 };
             TurniAttesaGiocatori = new List<int> { 0, 0 };
-            buffer = new();
-            for (int i = 0; i<2; i++)
-            {
-                buffer.Add(new List<int>());
-            }
+            buffer = new(); //per ciascuna mossa -> posizioni dei 2 giocatori
+
             GeneraCaselle(totLen, caselleOca, casellePonte, caselleCasa, casellePrigione, caselleLabirinto, caselleScheletro);
         }
 
@@ -59,7 +56,7 @@ namespace GiocoDellOca
 
         public int AvanzaRandom (int numGiocatore)
         {
-            int mosse = random.Next(0, 7) + random.Next(0, 7);
+            int mosse = random.Next(1, 7) + random.Next(1, 7);
             return Avanza(numGiocatore, mosse);
         }
 
@@ -73,12 +70,6 @@ namespace GiocoDellOca
             Avanza(numGiocatore, indiceCellaNuovo - PosizioniGiocatori[numGiocatore]);
         }
 
-        public List<List<int>> OttieniBufferMosse ()
-        {
-            List<List<int>> copy = buffer.ToList();
-            return copy;
-        }
-
         public int Avanza(int numGiocatore, int numMosse)
         {
             if (TurniAttesaGiocatori[numGiocatore] != 0 && Caselle[PosizioniGiocatori[numGiocatore]].PuoLasciareCasella(numGiocatore))
@@ -90,32 +81,53 @@ namespace GiocoDellOca
             else
             {
                 //MessageBox.Show($"{PosizioniGiocatori[numGiocatore]} {numMosse.ToString()}");
-                int downDelta = Math.Max(0, (PosizioniGiocatori[numGiocatore] + numMosse) - TotPathLen);
-                int upDelta = Math.Min(PosizioniGiocatori[numGiocatore] + numMosse, TotPathLen);
+                int downDelta = Math.Max(0, (PosizioniGiocatori[numGiocatore] + numMosse) - TotPathLen+1);
+                int upDelta = Math.Min(PosizioniGiocatori[numGiocatore] + numMosse, TotPathLen-1);
 
                 //MessageBox.Show($"Posizione attuale: {PosizioniGiocatori[numGiocatore]}, cresciuto a {upDelta}, sceso di {downDelta}");
 
+                int PosizioneIniziale = PosizioniGiocatori[numGiocatore];
                 
-                for (int i = 1; i<=upDelta; i++)
+                for (int i = PosizioneIniziale; i<=upDelta; i++)
                 {
-                    buffer[numGiocatore].Add(PosizioniGiocatori[numGiocatore] + i);
+                    buffer.Add(new List<int>() { 0, 0 });
+                    buffer[^1][1 - numGiocatore] = PosizioniGiocatori[1 - numGiocatore];
+                    buffer[^1][numGiocatore] = i;
                 }
 
                 PosizioniGiocatori[numGiocatore] = upDelta;
 
                 for (int i = 1; i <= downDelta; i++)
                 {
-                    buffer[numGiocatore].Add(PosizioniGiocatori[numGiocatore] - i);
+                    buffer.Add(new List<int>() { 0, 0 });
+                    buffer[^1][1 - numGiocatore] = PosizioniGiocatori[1 - numGiocatore];
+                    buffer[^1][numGiocatore] = PosizioniGiocatori[numGiocatore] - i;
                 }
 
                 PosizioniGiocatori[numGiocatore] -= downDelta;
 
 
-                //una volta arrivato sulla cella giusta:
+                //una volta arrivato sulla cella giusta: se c'è un altro giocatore lo sposta
+
+                for (int i = 0; i<2; i++)
+                {
+                    if (i != numGiocatore && PosizioniGiocatori[i] == PosizioniGiocatori[numGiocatore])
+                    {
+                        for (int j = PosizioniGiocatori[numGiocatore]-1; j>=PosizioneIniziale; j--)
+                        {
+                            buffer.Add(new List<int>() { 0, 0 });
+                            buffer[^1][numGiocatore] = PosizioniGiocatori[numGiocatore] + i;
+                            buffer[^1][i] = j;
+                        }
+                        PosizioniGiocatori[i] = PosizioneIniziale;
+                    }
+                }
+
+                //poi
 
                 if (PosizioniGiocatori[numGiocatore] == TotPathLen-1)
                 {
-                    //vittoria
+                    FineGioco?.Invoke(this, new FineGiocoEventArgs(numGiocatore));
                 }
                 else
                 {
@@ -125,7 +137,7 @@ namespace GiocoDellOca
                     }
                 }
 
-                return PosizioniGiocatori[numGiocatore];
+                return numMosse;
             }
         }
     }

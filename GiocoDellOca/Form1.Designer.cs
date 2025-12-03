@@ -91,9 +91,9 @@
             // lbl_Stato
             // 
             lbl_Stato.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lbl_Stato.Location = new Point(253, 12);
+            lbl_Stato.Location = new Point(197, 12);
             lbl_Stato.Name = "lbl_Stato";
-            lbl_Stato.Size = new Size(181, 61);
+            lbl_Stato.Size = new Size(324, 61);
             lbl_Stato.TabIndex = 3;
             lbl_Stato.TextAlign = ContentAlignment.MiddleCenter;
             // 
