@@ -8,7 +8,7 @@ namespace GiocoDellOca
 {
     public partial class Form1 : Form
     {
-        const int pathLen = 63;
+        const int pathLen = 64;
         System.Windows.Forms.Timer resizeTimer;
         System.Windows.Forms.Timer moveTimer;
         private const int RESIZE_TICK_TIME_MS = 500;
@@ -82,6 +82,8 @@ namespace GiocoDellOca
             MessageBox.Show("Ha vinto giocatore: " + fgea.giocatoreVincitore);
             btn_Giocatore_1_Dadi.Enabled = false;
             btn_Giocatore_2_Dadi.Enabled = false;
+            CreateDynamicGrid(gestore.PosizioniGiocatori[0], gestore.PosizioniGiocatori[0]);
+            moveTimer.Stop();
         }
 
         private void setGridSize()
@@ -276,7 +278,8 @@ namespace GiocoDellOca
             if (CurrentPlayer != 0)
                 return;
 
-            MessageBox.Show(gestore.AvanzaRandom(0).ToString());
+            //MessageBox.Show(gestore.AvanzaRandom(0).ToString());
+            gestore.AvanzaRandom(0);
             CurrentPlayer = -1 - CurrentPlayer; //-1 per giocatore 0 in anim, -2 per giocatore 1 in anim
             moveTimer.Start();
             btn_Giocatore_1_Dadi.Enabled = false;
@@ -290,7 +293,8 @@ namespace GiocoDellOca
             if (CurrentPlayer != 1)
                 return;
 
-            MessageBox.Show(gestore.AvanzaRandom(1).ToString());
+            //MessageBox.Show(gestore.AvanzaRandom(1).ToString());
+            gestore.AvanzaRandom(1);
             CurrentPlayer = -1 - CurrentPlayer; //-1 per giocatore 0 in anim, -2 per giocatore 1 in anim
             moveTimer.Start();
             btn_Giocatore_1_Dadi.Enabled = false;

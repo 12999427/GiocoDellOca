@@ -75,7 +75,7 @@ namespace GiocoDellOca
             if (TurniAttesaGiocatori[numGiocatore] != 0 && Caselle[PosizioniGiocatori[numGiocatore]].PuoLasciareCasella(numGiocatore))
             {
                 TurniAttesaGiocatori[numGiocatore]--;
-                MessageBox.Show("Attesa");
+                //MessageBox.Show("Attesa");
                 return numMosse;
             }
             else
